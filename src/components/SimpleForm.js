@@ -6,11 +6,14 @@ function SimpleForm() {
       name: "",
       email: "",
     },
+    onSubmit: (values) => {
+      console.log(values);
+    },
   });
   console.log(formik.values);
   return (
     <div>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <label htmlFor="name">Name </label>
         <input
           type="text"
