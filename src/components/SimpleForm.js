@@ -24,7 +24,7 @@ function SimpleForm() {
       return errors;
     },
   });
-  console.log(formik.values);
+  console.log(formik.touched);
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
@@ -34,8 +34,12 @@ function SimpleForm() {
           name="name"
           id="name"
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           value={formik.values.name}
         />
+        {formik.touched.name && formik.errors.name ? (
+          <div className="errors">*{formik.errors.name}</div>
+        ) : null}
         <label htmlFor="email" id="email">
           Email
         </label>
@@ -44,7 +48,12 @@ function SimpleForm() {
           name="email"
           onChange={formik.handleChange}
           value={formik.values.email}
+          onBlur={formik.handleBlur}
         />
+        {formik.touched.email && formik.errors.email ? (
+          <div className="errors">*{formik.errors.email}</div>
+        ) : null}
+
         <button type="submit">Submit</button>
       </form>
     </div>
