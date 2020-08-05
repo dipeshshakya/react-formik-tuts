@@ -1,28 +1,37 @@
 import React from "react";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 function SimpleForm() {
+  const validationSchema = Yup.object({
+    name: Yup.string().required("required!"),
+    email: Yup.string().email("invalid email format").required("required!"),
+  });
+  const initialValues = {
+    name: "",
+    email: "",
+  };
+  const onSubmit = (values) => {
+    console.log(values);
+  };
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-    validate: (values) => {
-      let errors = {};
-      if (!values.name) {
-        errors.name = "required";
-      }
-      if (!values.email) {
-        errors.email = "Required";
-      } else if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-      ) {
-        errors.email = "Invalid email format";
-      }
-      return errors;
-    },
+    initialValues,
+    onSubmit,
+    validationSchema,
+
+    // validate: (values) => {
+    //   let errors = {};
+    //   if (!values.name) {
+    //     errors.name = "required";
+    //   }
+    //   if (!values.email) {
+    //     errors.email = "Required";
+    //   } else if (
+    //     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    //   ) {
+    //     errors.email = "Invalid email format";
+    //   }
+    //   return errors;
+    // },
   });
   console.log(formik.touched);
   return (
