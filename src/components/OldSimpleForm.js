@@ -1,5 +1,7 @@
 import React from "react";
-import { useFormik } from "formik";
+// import { useFormik } from "formik";
+
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 function OldSimpleForm() {
   const validationSchema = Yup.object({
@@ -13,36 +15,48 @@ function OldSimpleForm() {
   const onSubmit = (values) => {
     console.log(values);
   };
-  const formik = useFormik({
-    initialValues,
-    onSubmit,
-    validationSchema,
-  });
-  console.log(formik.touched);
+  //   const formik = useFormik({
+  //     initialValues,
+  //     onSubmit,
+  //     validationSchema,
+  //   });
+  //   console.log(formik.touched);
   return (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      <Form>
         <label htmlFor="name">Name </label>
-        <input
+        <Field
           type="text"
           name="name"
           id="name"
-          {...formik.getFieldProps("name")}
+          //   {...formik.getFieldProps("name")}
+          // Form component includes getFieldProps
         />
-        {formik.touched.name && formik.errors.name ? (
+        <ErrorMessage name="name" />
+
+        {/* {formik.touched.name && formik.errors.name ? (
           <div className="errors">*{formik.errors.name}</div>
-        ) : null}
+        ) : null} */}
         <label htmlFor="email" id="email">
           Email
         </label>
-        <input type="email" name="email" {...formik.getFieldProps("email")} />
-        {formik.touched.email && formik.errors.email ? (
+        <Field
+          type="email"
+          name="email"
+          // {...formik.getFieldProps("email")}
+        />
+        {/* {formik.touched.email && formik.errors.email ? (
           <div className="errors">*{formik.errors.email}</div>
-        ) : null}
+        ) : null} */}
+        <ErrorMessage name="email" />
 
         <button type="submit">Submit</button>
-      </form>
-    </div>
+      </Form>
+    </Formik>
   );
 }
 
