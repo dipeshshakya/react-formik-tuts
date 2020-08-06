@@ -1,7 +1,7 @@
 import React from "react";
 // import { useFormik } from "formik";
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import * as Yup from "yup";
 function OldSimpleForm() {
   const validationSchema = Yup.object({
@@ -11,6 +11,7 @@ function OldSimpleForm() {
   const initialValues = {
     name: "",
     email: "",
+    phone: [""],
   };
   const onSubmit = (values) => {
     console.log(values);
@@ -53,6 +54,33 @@ function OldSimpleForm() {
           <div className="errors">*{formik.errors.email}</div>
         ) : null} */}
         <ErrorMessage name="email" />
+        <label htmlFor="Phone No.">Phone No.</label>
+        <FieldArray name="phone">
+          {(fieldArrayProps) => {
+            console.log(fieldArrayProps);
+            const { push, remove, form } = fieldArrayProps;
+            const { values } = form;
+            const { phone } = values;
+            return (
+              <div>
+                {phone.map((ph, index) => (
+                  <div key={index}>
+                    <Field name={`phone[${index}]`} />
+                    {index > 0 && (
+                      <button type="button" onClick={() => remove(index)}>
+                        -
+                      </button>
+                    )}
+
+                    <button type="button" onClick={() => push("")}>
+                      +
+                    </button>
+                  </div>
+                ))}
+              </div>
+            );
+          }}
+        </FieldArray>
 
         <button type="submit">Submit</button>
       </Form>
